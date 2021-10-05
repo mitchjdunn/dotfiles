@@ -5,7 +5,7 @@
 ;(tooltip-mode -1)           ; Disable tooltips
 (set-fringe-mode 10)        ; Give some breathing room
 
-;(menu-bar-mode -1)            ; Disable the menu bar
+(menu-bar-mode -1)            ; Disable the menu bar
 
 ;; Set up the visible bell
 (setq visible-bell t)
@@ -17,14 +17,6 @@
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-;; setting org keybindings
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c c") 'org-capture)
-
-;; Org todo keywords -- aptly named variable
-(setq org-todo-keywords
-      '((sequence "TODO" "IN PROGRESS" "|" "DONE" "DELEGATED")))
 
 ;; Initialize package sources
 (require 'package)
@@ -50,7 +42,7 @@
   :diminish
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)	
+         ("TAB" . ivy-alt-done)
          ("C-l" . ivy-alt-done)
          ("C-j" . ivy-next-line)
          ("C-k" . ivy-previous-line)
@@ -85,7 +77,7 @@
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package doom-themes
-  :init (load-theme 'doom-gruvbox))
+  :init (load-theme 'doom-gruvbox t))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -116,21 +108,27 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("8fd2d543bdaa2858240dd7814bd8ee78c869f90bffed37a06316dd6407510260" default))
+   '("ead38a904e4dab009e0a389c6575ee6edea2aec56714b9c1bab015b48503ce87" "8fd2d543bdaa2858240dd7814bd8ee78c869f90bffed37a06316dd6407510260" default))
  '(package-selected-packages
    '(hydra evil-collection general helpful ivy-rich which-key rainbow-delimiters doom-themes use-package doom-modeline counsel command-log-mode)))
+'(initial-buffer-choice "~/org/todo.org")
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; start up in full screen
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (use-package general
   :config
@@ -176,3 +174,25 @@
 
 (rune/leader-keys
   "ts" '(hydra-text-scale/body :which-key "scale text"))
+
+
+
+;; setting org keybindings
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
+
+;; setting org capture file
+(setq org-directory "~/org")
+(setq org-default-notes-file (concat org-directory "/todo.org"))
+
+;; org-catpure templates
+(setq org-capture-templates
+      `(("t" "Todo" entry (file+headline org-default-notes-file "Inbox")
+	 "* TODO %?\nEntered on %U\n%i\n %a")
+	("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
+	 "* %s?\nEntered on %U\n %i\n %a")))
+
+;; Org todo keywords -- aptly named variable
+(setq org-todo-keywords
+      '((sequence "TODO" "IN PROGRESS" "|" "DONE" "DELEGATED")))
