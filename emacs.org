@@ -193,7 +193,7 @@ This configuration uses [[https://evil.readthedocs.io/en/latest/index.html][evil
     :bind (("C-s" . swiper)
 	   :map ivy-minibuffer-map
 	   ("TAB" . ivy-alt-done)
-	   ("C-l" . ivy-alt-done)
+	   ("C-l" . ivy-immediate-done)
 	   ("C-j" . ivy-next-line)
 	   ("C-k" . ivy-previous-line)
 	   :map ivy-switch-buffer-map
@@ -221,6 +221,9 @@ This configuration uses [[https://evil.readthedocs.io/en/latest/index.html][evil
     (counsel-mode 1))
 
 #+end_src
+
+#+RESULTS:
+: counsel-minibuffer-history
 
 ** Helpful Help Commands
 
