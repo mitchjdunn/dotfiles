@@ -190,7 +190,7 @@
 
   (setq org-refile-targets
         '(("~/org/Archive.org" :maxlevel . 3)
-          ("~/org/gtd/projects.org" :maxlevel . 3))
+          ("~/org/gtd/projects.org" :maxlevel . 3))))
 
   ;; Save Org buffers after refiling!
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
@@ -242,80 +242,67 @@
     (lambda () (interactive) (org-capture nil "jj")))
 
 (global-set-key (kbd "C-c a") 'org-agenda)
- (setq org-agenda-files
+
+(setq org-agenda-files
        '((concat org-directory "/gtd/inbox.org")
-       (concat org-directory "/gtd/projects.org"))
+       (concat org-directory "/gtd/projects.org")))
  ;; Configure custom agenda views
 (setq org-agenda-custom-commands
        ;; (key descr (type) match settings file)
        '(("d" "Dashboard"
-          ;; type: (
-          ((agenda "" ((org-deadline-warning-days 7)))
-           (todo "NEXT"
-                 ((org-agenda-overriding-header "Next Tasks")))
-           (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+	  ;; type: 
+	  ((agenda "" ((org-deadline-warning-days 7)))
+	   (todo "NEXT"
+		 ((org-agenda-overriding-header "Next Tasks")))
+	   (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
 
-         ("n" "Next Tasks"
-          ((todo "NEXT"
-                 ((org-agenda-overriding-header "Next Tasks")))))
+	 ("n" "Next Tasks"
+	  ((todo "NEXT"
+		 ((org-agenda-overriding-header "Next Tasks")))))
 
-         ("W" "Work Tasks" tags-todo "+staples")
+	 ("W" "Work Tasks" tags-todo "+staples")
 
-         ;; Low-effort next actions
-         ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
-          ((org-agenda-overriding-header "Low Effort Tasks")
-           (org-agenda-max-todos 20)
-           (org-agenda-files org-agenda-files)))
+	 ;; Low-effort next actions
+	 ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+	  ((org-agenda-overriding-header "Low Effort Tasks")
+	   (org-agenda-max-todos 20)
+	   (org-agenda-files org-agenda-files)))
 
-         ("w" "Workflow Status"
-          ((todo "WAIT"
-                 ((org-agenda-overriding-header "Waiting on External")
-                  (org-agenda-files org-agenda-files)))
-           (todo "REVIEW"
-                 ((org-agenda-overriding-header "In Review")
-                  (org-agenda-files org-agenda-files)))
-           (todo "PLAN"
-                 ((org-agenda-overriding-header "In Planning")
-                  (org-agenda-todo-list-sublevels nil)
-                  (org-agenda-files org-agenda-files)))
-           (todo "BACKLOG"
-                 ((org-agenda-overriding-header "Project Backlog")
-                  (org-agenda-todo-list-sublevels nil)
-                  (org-agenda-files org-agenda-files)))
-           (todo "READY"
-                 ((org-agenda-overriding-header "Ready for Work")
-                  (org-agenda-files org-agenda-files)))
-           (todo "ACTIVE"
-                 ((org-agenda-overriding-header "Active Projects")
-                  (org-agenda-files org-agenda-files)))
-           (todo "COMPLETED"
-                 ((org-agenda-overriding-header "Completed Projects")
-                  (org-agenda-files org-agenda-files)))
-           (todo "CANC"
-                 ((org-agenda-overriding-header "Cancelled Projects")
-                  (org-agenda-files org-agenda-files))))))))
+	 ("w" "Workflow Status"
+	  ((todo "WAIT"
+		 ((org-agenda-overriding-header "Waiting on External")
+		  (org-agenda-files org-agenda-files)))
+	   (todo "REVIEW"
+		 ((org-agenda-overriding-header "In Review")
+		  (org-agenda-files org-agenda-files)))
+	   (todo "PLAN"
+		 ((org-agenda-overriding-header "In Planning")
+		  (org-agenda-todo-list-sublevels nil)
+		  (org-agenda-files org-agenda-files)))
+	   (todo "BACKLOG"
+		 ((org-agenda-overriding-header "Project Backlog")
+		  (org-agenda-todo-list-sublevels nil)
+		  (org-agenda-files org-agenda-files)))
+	   (todo "READY"
+		 ((org-agenda-overriding-header "Ready for Work")
+		  (org-agenda-files org-agenda-files)))
+	   (todo "ACTIVE"
+		 ((org-agenda-overriding-header "Active Projects")
+		  (org-agenda-files org-agenda-files)))
+	   (todo "COMPLETED"
+		 ((org-agenda-overriding-header "Completed Projects")
+		  (org-agenda-files org-agenda-files)))
+	   (todo "CANC"
+		 ((org-agenda-overriding-header "Cancelled Projects")
+		  (org-agenda-files org-agenda-files)))))))
 
 (require 'org-habit)
 (add-to-list 'org-modules 'org-habit)
 (setq org-habit-graph-column 60)
 
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-
-(defun mitchymitch/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package visual-fill-column
-  :hook (org-mode . mitchymitch/org-mode-visual-fill))
-
 (require 'org-faces)
 
-(Defun mitchymitch/org-font-setup ()
+(defun mitchymitch/org-font-setup ()
   ;; Replace list hyphen with dot
   (font-lock-add-keywords 'org-mode
                           '(("^ *\\([-]\\) "
@@ -342,6 +329,21 @@
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 
   (mitchymitch/org-font-setup)
+
+(require 'org-bullets)
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+(defun mitchymitch/org-mode-visual-fill ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package visual-fill-column
+  :hook (org-mode . mitchymitch/org-mode-visual-fill))
 
 (org-babel-do-load-languages
   'org-babel-load-languages
@@ -379,7 +381,7 @@
 ;; NOTE: Make sure to configure a GitHub token before using this package!
 ;; - https://magit.vc/manual/forge/Token-Creation.html#Token-Creation
 ;; - https://magit.vc/manual/ghub/Getting-Started.html#Getting-Started
-(use-package forge)
+;;(use-package forge)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -463,30 +465,30 @@
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
 (use-package dired
-  :ensure nil
-  :commands (dired dired-jump)
-  :bind (("C-x C-j" . dired-jump))
-  :custom ((dired-listing-switches "-agho "))
-;; --group-directories-first doesn't work on mac
-  :config
-  (evil-collection-define-key 'normal 'dired-mode-map
-    "h" 'dired-single-up-directory
-    "l" 'dired-single-buffer))
+    :ensure nil
+    :commands (dired dired-jump)
+    :bind (("C-x C-j" . dired-jump))
+    :custom ((dired-listing-switches "-agho "))
+  ;; --group-directories-first doesn't work on mac
+    :config
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "h" 'dired-single-up-directory
+      "l" 'dired-single-buffer))
 
-(use-package dired-single)
+  (use-package dired-single)
 
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode))
+  (use-package all-the-icons-dired
+    :hook (dired-mode . all-the-icons-dired-mode))
 
-(use-package dired-open
-  :config
-  ;; Doesn't work as expected!
-  ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
-  (setq dired-open-extensions '(("png" . "feh")
-                                ("mkv" . "mpv"))))
-
-(use-package dired-hide-dotfiles
-  :hook (dired-mode . dired-hide-dotfiles-mode)
-  :config
-  (evil-collection-define-key 'normal 'dired-mode-map
-    "H" 'dired-hide-dotfiles-mode))
+;;  (use-package dired-open
+;;    :config
+;;    ;; Doesn't work as expected!
+;;    ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
+;;    (setq dired-open-extensions '(("png" . "feh")
+;;                                  ("mkv" . "mpv"))))
+;;
+;;  (use-package dired-hide-dotfiles
+;;    :hook (dired-mode . dired-hide-dotfiles-mode)
+;;    :config
+;;    (evil-collection-define-key 'normal 'dired-mode-map
+;;      "H" 'dired-hide-dotfiles-mode))
