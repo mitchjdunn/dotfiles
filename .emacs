@@ -189,8 +189,8 @@
 
 
   (setq org-refile-targets
-        '(("~/org/Archive.org" :maxlevel . 3)
-          ("~/org/gtd/projects.org" :maxlevel . 3))))
+        '(("~/org/Archive.org" :maxlevel . 1)
+          ("~/org/gtd/projects.org" :maxlevel . 2))))
 
   ;; Save Org buffers after refiling!
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
