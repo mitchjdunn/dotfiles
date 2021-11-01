@@ -372,8 +372,7 @@ This section contains the basic configuration for =org-mode= plus the configurat
   (global-set-key (kbd "C-c a") 'org-agenda)
 
   (setq org-agenda-files
-	 '((concat org-directory "/gtd/inbox.org")
-	 (concat org-directory "/gtd/projects.org")))
+	 '("~/org/gtd/inbox.org" "~/org/gtd/projects.org" "~/org/habits.org"))
    ;; Configure custom agenda views
   (setq org-agenda-custom-commands
 	 ;; (key descr (type) match settings file)
@@ -508,7 +507,7 @@ We use [[https://github.com/joostkremers/visual-fill-column][visual-fill-column]
 #+begin_src emacs-lisp
 
   (defun mitchymitch/org-mode-visual-fill ()
-    (setq visual-fill-column-width 100
+    (setq visual-fill-column-width 200
           visual-fill-column-center-text t)
     (visual-fill-column-mode 1))
 
@@ -518,7 +517,7 @@ We use [[https://github.com/joostkremers/visual-fill-column][visual-fill-column]
 #+end_src
 
 #+RESULTS:
-| mitchymitch/org-mode-visual-fill | org-bullets-mode | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | (lambda nil (display-line-numbers-mode 0)) |
+| #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | (lambda nil (add-hook 'after-save-hook #'mitchymitch/org-babel-tangle-config)) | org-tempo-setup | mitchymitch/org-mode-visual-fill | org-bullets-mode | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | mitchymitch/org-mode-setup | (lambda nil (display-line-numbers-mode 0)) |
 
 ** Configure Babel Languages
 
