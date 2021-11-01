@@ -751,6 +751,18 @@ GO111MODULE=on go get golang.org/x/tools/gopls@latest
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
 #+end_src
+
+** Plantuml
+[[https://www.plantuml.com][PlantUml]] is a documentation tool used to create diagrations with a declarative language.  The below configuration tells emacs where the plantuml jar is located and adds it to org-babel
+#+begin_src emacs-lisp
+(setq org-plantuml-jar-path (expand-file-name "~/Packages/jars/plantuml.jar"))
+(add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+(add-to-list 'org-structure-template-alist '("plant" . "src plantuml"))
+(org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
+#+end_src
+
+#+RESULTS:
+
 * File Management
 
 ** Dired

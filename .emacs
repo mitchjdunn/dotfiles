@@ -464,6 +464,11 @@
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
+(setq org-plantuml-jar-path (expand-file-name "~/Packages/jars/plantuml.jar"))
+(add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+(add-to-list 'org-structure-template-alist '("plant" . "src plantuml"))
+(org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
+
 (use-package dired
     :ensure nil
     :commands (dired dired-jump)
