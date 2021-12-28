@@ -1,0 +1,8 @@
+dconf/
+eveolution/
+evolution/
+gnome*
+gtk*/
+ibus/
+pulse/
+user-dirs*
